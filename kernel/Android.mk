@@ -64,7 +64,7 @@ $(KERNEL_OUT)/.config: $(KERNEL_FRAGMENTS) $(sort $(shell find -L $(KERNEL_SRC))
 	$(KMAKE) olddefconfig
 
 $(KERNEL_BINARY): $(sort $(shell find -L $(KERNEL_SRC))) $(KERNEL_OUT)/.config
-	$(KMAKE) $(KERNEL_TARGET) dtbs modules
+	$(KMAKE) $(KERNEL_TARGET) DTC_FLAGS='--symbols' dtbs modules
 
 $(KERNEL_COMPRESSED): $(KERNEL_BINARY)
 	rm -f $@
@@ -78,7 +78,7 @@ $(KERNEL_MODULES_OUT): $(KERNEL_BINARY)
 #-------------------------------------------------------------------------------
 $(ANDROID_DTBO): $(ANDROID_DTS_OVERLAY)
 	rm -f $@
-	./prebuilts/misc/linux-x86/dtc/dtc -@ -I dts -O dtb -o $@ $<
+	./prebuilts/misc/linux-x86/dtc/dtc --symbols -I dts -O dtb -o $@ $<
 
 $(DTB_IMG): $(DTB_IMG_CONFIG) $(KERNEL_BINARY) $(ANDROID_DTBO)
 	$(call pretty,"Target dtb image: $@")
