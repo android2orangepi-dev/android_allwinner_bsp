@@ -22,6 +22,35 @@
 		};
 	    };
 	};
+	gpio_sw3: ver_reg@0x01c00024 {
+		compatible = "wd,mbl-gpio";
+		reg-names = "dat";
+		reg = <0x01c00024 0x4>; /* System Control Registers, Version Register */
+		#gpio-cells = <2>;
+		gpio-controller;
+		no-output;
+	};
+	gpio_keys_polled {
+		compatible = "gpio-keys-polled";
+		poll-interval = <100>;
+		autorepeat;
+
+		sw3 {
+			label = "UBOOT";
+			linux,code = <115>; /* KEY_VOLUMEUP */
+			gpios = <&gpio_sw3 8 1>; /* Bit 8 - UBOOT Select Pin Status */
+		};
+	};
+	r_gpio_keys {
+		sw4 {
+			linux,code = <114>; /* KEY_VOLUMEDOWN */
+		};
+		sw2 {
+			label = "sw2";
+			linux,code = <116>; /* KEY_POWER */
+			gpios = <&r_pio 0 4 1>;
+		};
+	};
     };
   };
 };
