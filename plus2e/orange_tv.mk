@@ -165,3 +165,6 @@ PRODUCT_PACKAGES += \
     liblzma.vndk-sp\
     libion.vndk-sp\
 
+# Prebuild applications
+PRODUCT_PACKAGES += \
+    Kodi \
