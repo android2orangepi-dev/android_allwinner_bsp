@@ -13,7 +13,11 @@
 # limitations under the License.
 #
 
-$(call inherit-product, device/linaro/hikey/device-common.mk)
+ifneq (,$(filter $(DEVICE_TYPE),TV))
+    $(call inherit-product, device/allwinner/plus2e/orange_tv.mk)
+else
+    $(call inherit-product, device/linaro/hikey/device-common.mk)
+endif
 $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base.mk)
 
 # bootloaders in srec format
@@ -66,3 +70,7 @@ PRODUCT_PACKAGES += \
 
 PRODUCT_COPY_FILES += \
     device/allwinner/plus2e/audio.plus2e.xml:$(TARGET_COPY_OUT_VENDOR)/etc/audio.plus2e.xml \
+
+# Prebuild .apk applications
+PRODUCT_PACKAGES += \
+    FDroid
